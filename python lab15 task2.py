@@ -7,16 +7,22 @@ df.fillna(0, inplace=True)
 
 df['Month'] = df['Date'].dt.month
 
-df['Total'] = df[['Rachel / Papineau', 'Berri1', 'Maisonneuve_1', 'Maisonneuve_2', 'Brébeuf', 'Parc', 'CSC (Côte Sainte-Catherine)', 'PierDup']].sum(axis=1)
+monthly_data = df.groupby('Month')[['Rachel / Papineau', 'Berri1', 'Maisonneuve_1', 
+                                      'Maisonneuve_2', 'Brébeuf', 'Parc', 
+                                      'CSC (Côte Sainte-Catherine)', 'PierDup']].sum()
 
-monthly_totals = df.groupby('Month')['Total'].sum()
+monthly_data['Total'] = monthly_data.sum(axis=1)
 
-popular_month = monthly_totals.idxmax()
+popular_month = monthly_data['Total'].idxmax()
 print(f"Найпопулярніший місяць: {popular_month}")
 
-monthly_totals.plot(kind='bar', color='orange', edgecolor='black')
+plt.figure(figsize=(15, 10))  
+monthly_data.plot(kind='line', marker='o', ax=plt.gca())  
 plt.title('Кількість велосипедистів по місяцях')
 plt.xlabel('Місяць')
+plt.xticks(range(1, 13))
 plt.ylabel('Кількість велосипедистів')
-plt.xticks(rotation=0)
+plt.xticks(rotation=1)  
+plt.grid(axis='y')  
+plt.legend(title='Велодоріжки')  
 plt.show()

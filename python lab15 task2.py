@@ -12,17 +12,21 @@ monthly_data = df.groupby('Month')[['Rachel / Papineau', 'Berri1', 'Maisonneuve_
                                       'CSC (Côte Sainte-Catherine)', 'PierDup']].sum()
 
 monthly_data['Total'] = monthly_data.sum(axis=1)
-
 popular_month = monthly_data['Total'].idxmax()
+popular_month_value = monthly_data['Total'].max()
 print(f"Найпопулярніший місяць: {popular_month}")
-
-plt.figure(figsize=(15, 10))  
-monthly_data.plot(kind='line', marker='o', ax=plt.gca())  
+plt.figure(figsize=(15, 10))
+monthly_data.plot(kind='line', marker='o', ax=plt.gca())
 plt.title('Кількість велосипедистів по місяцях')
 plt.xlabel('Місяць')
 plt.xticks(range(1, 13))
 plt.ylabel('Кількість велосипедистів')
-plt.xticks(rotation=1)  
-plt.grid(axis='y')  
-plt.legend(title='Велодоріжки')  
+plt.xticks(rotation=1)
+plt.grid(axis='y')
+plt.legend(title='Велодоріжки')
+plt.text(12.5, monthly_data['Total'].max() * 1.1,  
+         f'Найпопулярніший місяць: {popular_month}', 
+         fontsize=12, color='red', ha='right', va='center')
+
 plt.show()
+
